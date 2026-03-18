@@ -1,0 +1,8 @@
+en:
+  site_settings:
+    custom_toolbar_buttons_enabled: "Enable custom toolbar buttons plugin"
+
+  custom_toolbar_buttons:
+    errors:
+      not_found: "Custom toolbar button not found"
+      plugin_disabled: "The custom toolbar buttons plugin is currently disabled"

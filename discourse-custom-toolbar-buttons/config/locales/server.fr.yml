@@ -1,0 +1,8 @@
+fr:
+  site_settings:
+    custom_toolbar_buttons_enabled: "Activer le plugin de boutons personnalisés dans la barre d'outils"
+
+  custom_toolbar_buttons:
+    errors:
+      not_found: "Bouton de barre d'outils introuvable"
+      plugin_disabled: "Le plugin de boutons personnalisés est actuellement désactivé"

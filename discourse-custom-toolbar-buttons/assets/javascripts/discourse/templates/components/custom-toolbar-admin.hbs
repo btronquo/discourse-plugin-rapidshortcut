@@ -1,0 +1,232 @@
+{{! ─── Page header ─────────────────────────────────────────────────────────── }}
+<div class="ctb-admin">
+  <div class="ctb-admin__header">
+    <div class="ctb-admin__header-left">
+      <h3>{{i18n "custom_toolbar_buttons.admin.title"}}</h3>
+      <p class="ctb-admin__subtitle">
+        {{i18n "custom_toolbar_buttons.admin.subtitle"}}
+      </p>
+    </div>
+    <DButton
+      @action={{this.openNewForm}}
+      @icon="plus"
+      @label="custom_toolbar_buttons.admin.add_button"
+      class="btn-primary ctb-admin__add-btn"
+    />
+  </div>
+
+  {{! ─── Buttons table ──────────────────────────────────────────────────────── }}
+  {{#if this.buttons.length}}
+    <table class="d-admin-table ctb-admin__table">
+      <thead>
+        <tr>
+          <th>{{i18n "custom_toolbar_buttons.admin.columns.icon"}}</th>
+          <th>{{i18n "custom_toolbar_buttons.admin.columns.title"}}</th>
+          <th>{{i18n "custom_toolbar_buttons.admin.columns.permission"}}</th>
+          <th>{{i18n "custom_toolbar_buttons.admin.columns.preview"}}</th>
+          <th>{{i18n "custom_toolbar_buttons.admin.columns.status"}}</th>
+          <th>{{i18n "custom_toolbar_buttons.admin.columns.actions"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.buttons as |button|}}
+          <tr class="{{unless button.enabled "ctb-admin__row--disabled"}}">
+            <td class="ctb-admin__col-icon">
+              {{d-icon button.icon}}
+            </td>
+            <td class="ctb-admin__col-title">
+              <strong>{{button.title}}</strong>
+            </td>
+            <td class="ctb-admin__col-permission">
+              <span class="ctb-badge ctb-badge--{{button.permission}}">
+                {{button.permission}}
+              </span>
+            </td>
+            <td class="ctb-admin__col-preview">
+              <pre class="ctb-content-preview">{{button.content}}</pre>
+            </td>
+            <td class="ctb-admin__col-status">
+              <DToggleSwitch
+                @state={{button.enabled}}
+                @label={{if button.enabled
+                  (i18n "custom_toolbar_buttons.admin.enabled")
+                  (i18n "custom_toolbar_buttons.admin.disabled")}}
+                {{on "click" (fn this.toggleEnabled button)}}
+              />
+            </td>
+            <td class="ctb-admin__col-actions">
+              <DButton
+                @action={{fn this.openEditForm button}}
+                @icon="pencil-alt"
+                @title={{i18n "custom_toolbar_buttons.admin.edit"}}
+                class="btn-small btn-default"
+              />
+              <DButton
+                @action={{fn this.confirmDelete button}}
+                @icon="trash-alt"
+                @title={{i18n "custom_toolbar_buttons.admin.delete"}}
+                class="btn-small btn-danger"
+              />
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div class="ctb-admin__empty">
+      {{d-icon "mouse-pointer"}}
+      <p>{{i18n "custom_toolbar_buttons.admin.empty"}}</p>
+    </div>
+  {{/if}}
+
+  {{! ─── Edit / Create form (slide-in panel) ───────────────────────────────── }}
+  {{#if this.showForm}}
+    <div class="ctb-form-backdrop" {{on "click" this.closeForm}}></div>
+
+    <div class="ctb-form">
+      <div class="ctb-form__header">
+        <h4>
+          {{if this.editingButton
+            (i18n "custom_toolbar_buttons.admin.form.edit_title")
+            (i18n "custom_toolbar_buttons.admin.form.new_title")}}
+        </h4>
+        <DButton
+          @action={{this.closeForm}}
+          @icon="times"
+          class="btn-transparent ctb-form__close"
+        />
+      </div>
+
+      {{! Title }}
+      <div class="control-group">
+        <label class="control-label">
+          {{i18n "custom_toolbar_buttons.admin.form.title_label"}}
+          <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          value={{this.formTitle}}
+          {{on "input" (fn this.updateField "formTitle")}}
+          placeholder={{i18n "custom_toolbar_buttons.admin.form.title_placeholder"}}
+          class="input-large"
+        />
+      </div>
+
+      {{! Icon }}
+      <div class="control-group">
+        <label class="control-label">
+          {{i18n "custom_toolbar_buttons.admin.form.icon_label"}}
+        </label>
+        <div class="ctb-form__icon-row">
+          <input
+            type="text"
+            value={{this.formIcon}}
+            {{on "input" (fn this.updateField "formIcon")}}
+            placeholder="star, bolt, info-circle…"
+            class="input-large"
+          />
+          <span class="ctb-form__icon-preview" title="Aperçu de l'icône">
+            {{#if this.iconPreviewValid}}
+              {{d-icon this.formIcon}}
+            {{/if}}
+          </span>
+        </div>
+        <p class="ctb-form__hint">
+          {{i18n "custom_toolbar_buttons.admin.form.icon_hint"}}
+          <a
+            href="https://fontawesome.com/v5/search?o=r&m=free"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Font Awesome Free v5</a>
+        </p>
+      </div>
+
+      {{! Content }}
+      <div class="control-group">
+        <label class="control-label">
+          {{i18n "custom_toolbar_buttons.admin.form.content_label"}}
+          <span class="required">*</span>
+        </label>
+        <textarea
+          value={{this.formContent}}
+          {{on "input" (fn this.updateField "formContent")}}
+          placeholder={{i18n "custom_toolbar_buttons.admin.form.content_placeholder"}}
+          rows="5"
+          class="input-xxlarge"
+        ></textarea>
+        <p class="ctb-form__hint">
+          {{i18n "custom_toolbar_buttons.admin.form.content_hint"}}
+        </p>
+      </div>
+
+      {{! Permission }}
+      <div class="control-group">
+        <label class="control-label">
+          {{i18n "custom_toolbar_buttons.admin.form.permission_label"}}
+        </label>
+        <select
+          {{on "change" (fn this.updateField "formPermission")}}
+          class="ctb-form__select"
+        >
+          {{#each this.PERMISSIONS as |perm|}}
+            <option
+              value={{perm.value}}
+              selected={{eq this.formPermission perm.value}}
+            >
+              {{perm.label}}
+            </option>
+          {{/each}}
+        </select>
+      </div>
+
+      {{! Position }}
+      <div class="control-group">
+        <label class="control-label">
+          {{i18n "custom_toolbar_buttons.admin.form.position_label"}}
+        </label>
+        <input
+          type="number"
+          value={{this.formPosition}}
+          {{on "input" (fn this.updateField "formPosition")}}
+          min="0"
+          class="input-small"
+        />
+        <p class="ctb-form__hint">
+          {{i18n "custom_toolbar_buttons.admin.form.position_hint"}}
+        </p>
+      </div>
+
+      {{! Enabled toggle }}
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            checked={{this.formEnabled}}
+            {{on "change" this.updateEnabled}}
+          />
+          {{i18n "custom_toolbar_buttons.admin.form.enabled_label"}}
+        </label>
+      </div>
+
+      {{! Submit row }}
+      <div class="ctb-form__actions">
+        <DButton
+          @action={{this.saveButton}}
+          @disabled={{this.isSaving}}
+          @icon={{if this.isSaving "spinner" "check"}}
+          @label={{if
+            this.editingButton
+            "custom_toolbar_buttons.admin.form.save"
+            "custom_toolbar_buttons.admin.form.create"
+          }}
+          class="btn-primary"
+        />
+        <DButton
+          @action={{this.closeForm}}
+          @label="cancel"
+          class="btn-default"
+        />
+      </div>
+    </div>
+  {{/if}}
+</div>

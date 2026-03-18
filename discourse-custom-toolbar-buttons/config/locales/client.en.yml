@@ -1,0 +1,36 @@
+en:
+  custom_toolbar_buttons:
+    admin:
+      title: "Custom Toolbar Buttons"
+      subtitle: "Configure custom text-insertion buttons that appear in the post composer toolbar."
+      add_button: "Add a button"
+      edit: "Edit"
+      delete: "Delete"
+      enabled: "Active"
+      disabled: "Inactive"
+      empty: "No buttons configured yet. Click « Add a button » to get started."
+
+      columns:
+        icon: "Icon"
+        title: "Title / Tooltip"
+        permission: "Permission"
+        preview: "Content preview"
+        status: "Status"
+        actions: "Actions"
+
+      form:
+        new_title: "New button"
+        edit_title: "Edit button"
+        title_label: "Title / Tooltip"
+        title_placeholder: "e.g. Standard incident message"
+        icon_label: "Icon (Font Awesome name)"
+        icon_hint: "Browse free icons at"
+        content_label: "Content to insert"
+        content_placeholder: "Text that will be inserted into the editor when the button is clicked. Markdown is supported."
+        content_hint: "Supports Markdown. The text will be inserted at the cursor position."
+        permission_label: "Who can use this button"
+        position_label: "Display order (position)"
+        position_hint: "Lower number = displayed first. Buttons with the same position are sorted by creation date."
+        enabled_label: "Enable this button"
+        save: "Save changes"
+        create: "Create button"

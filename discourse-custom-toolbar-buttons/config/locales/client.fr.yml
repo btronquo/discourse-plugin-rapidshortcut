@@ -1,0 +1,36 @@
+fr:
+  custom_toolbar_buttons:
+    admin:
+      title: "Boutons personnalisés de l'éditeur"
+      subtitle: "Configurez des boutons d'insertion de texte qui apparaissent dans la barre d'outils de l'éditeur de message."
+      add_button: "Ajouter un bouton"
+      edit: "Modifier"
+      delete: "Supprimer"
+      enabled: "Actif"
+      disabled: "Inactif"
+      empty: "Aucun bouton configuré. Cliquez sur « Ajouter un bouton » pour commencer."
+
+      columns:
+        icon: "Icône"
+        title: "Titre / Infobulle"
+        permission: "Permission"
+        preview: "Aperçu du contenu"
+        status: "Statut"
+        actions: "Actions"
+
+      form:
+        new_title: "Nouveau bouton"
+        edit_title: "Modifier le bouton"
+        title_label: "Titre / Infobulle"
+        title_placeholder: "Ex : Message d'incident standard"
+        icon_label: "Icône (nom Font Awesome)"
+        icon_hint: "Parcourez les icônes gratuites sur"
+        content_label: "Contenu à insérer"
+        content_placeholder: "Texte qui sera inséré dans l'éditeur au clic. Le Markdown est supporté."
+        content_hint: "Supporte le Markdown. Le texte sera inséré à la position du curseur."
+        permission_label: "Qui peut utiliser ce bouton"
+        position_label: "Ordre d'affichage (position)"
+        position_hint: "Numéro plus bas = affiché en premier. Les boutons avec la même position sont triés par date de création."
+        enabled_label: "Activer ce bouton"
+        save: "Enregistrer les modifications"
+        create: "Créer le bouton"

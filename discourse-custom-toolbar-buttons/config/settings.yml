@@ -1,0 +1,5 @@
+plugins:
+  custom_toolbar_buttons_enabled:
+    default: true
+    client: true
+    type: bool
